@@ -3,6 +3,11 @@
   <head>
     <meta charset="utf-8" />
     <style>
+      .message-ball {
+        font-size: 20px;
+        line-height: 200px;
+        text-align: center;
+      }
       .circle {
         transition-property: width, height, margin-left, margin-top;
         transition-duration: 2s;
@@ -15,11 +20,16 @@
   </head>
 
   <body>
-    <button onclick="showCircle(150, 150, 100, showText('Hello'))">
-      showCircle(150, 150, 100)
-    </button>
+    <button onclick="go()">여기를 클릭해 주세요.</button>
 
     <script>
+      function go() {
+        showCircle(150, 150, 100, div => {
+          div.classList.add('message-ball');
+          div.append('안녕하세요!');
+        });
+      }
+
       function showCircle(cx, cy, radius, callback) {
         let div = document.createElement('div');
         div.style.width = 0;
@@ -32,14 +42,12 @@
         setTimeout(() => {
           div.style.width = radius * 2 + 'px';
           div.style.height = radius * 2 + 'px';
-        }, 0);
 
-        function showText(text) {
-          div.innerHTML = text;
-        }
-        setTimeout(() => {
-          callback(showText('Hello'));
-        }, 2000);
+          div.addEventListener('transitionend', function handler() {
+            div.removeEventListener('transitionend', handler);
+            callback(div);
+          });
+        }, 0);
       }
     </script>
   </body>

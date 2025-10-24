@@ -73,3 +73,29 @@ const colors = createMap(['primary', 'secondary', 'danger'], '#000');
 //     secondary: "#000",
 //     danger: "#000"
 //   }
+
+/* Record + Partial */
+type Status2 = 'pending' | 'success' | 'fail'; // 3개 키 모두 필요
+
+const result: Partial<Record<Status2, string>> = {
+  success: '성공했습니다!',
+};
+
+interface User {
+  name: string;
+  age: number;
+  email: string;
+}
+
+type UserKeys = keyof User; // "name" | "age" | "email"
+
+// Pick으로 name, email만 매핑
+type UserContactMap = Record<Pick<UserKeys, 'name' | 'email'>, string>; // ❌ 오류 (Pick은 타입임)
+
+// 🔧 이렇게 써야 합니다:
+type UserContactMap = Record<'name' | 'email', string>;
+
+const contact: UserContactMap = {
+  name: '홍길동',
+  email: 'test@example.com',
+};

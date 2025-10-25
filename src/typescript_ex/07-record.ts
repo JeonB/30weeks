@@ -3,9 +3,11 @@
 객체의 키와 값의 타입을 명확히 정의할 때 유용
 */
 
-type UserRole = 'admin' | 'user' | 'guest';
+type Admin = 'super' | 'admin';
+type CommonUser = 'researcher' | 'user' | 'guest';
+type UserRole = Admin | CommonUser;
 
-type RoleDescriptions = Record<UserRole, string>;
+type RoleDescriptions = Partial<Record<UserRole, string>>;
 
 const roleText: RoleDescriptions = {
   admin: '관리자 권한이 있습니다.',

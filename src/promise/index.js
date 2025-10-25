@@ -102,3 +102,14 @@ function showCircle(cx, cy, radius) {
     }, 0);
   });
 }
+
+new Promise((resolve, reject) => {
+  const hit = Math.random() > 0.5;
+  if (hit) resolve('명중!');
+  else reject('빗나감!');
+})
+  .then(result => console.log(result))
+  .catch(error => console.error(error))
+  .finally(() => console.log('종료'));
+
+new Error('test error');

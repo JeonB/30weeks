@@ -37,3 +37,26 @@ function returnsHello() {
   return 'hello';
 }
 const h = returnsHello(); // h: string (not 'hello')
+// 7. null과 undefined widening
+let n = null; // n: any (초기값만 있으면 any 타입이 할당됨)
+let u = undefined; // u: any
+
+// 8. let과 const의 함수 타입 추론 차이
+let compute = () => 123; // compute: () => number
+const computeConst = () => 123; // computeConst: () => number (함수 반환값은 narrowing 안됨)
+
+// 9. template literal widening
+let suffix = 'world';
+let greet = `hello ${suffix}`; // greet: string (literal widening)
+const greetConst = `hello world`; // greetConst: "hello world"
+
+// 10. symbol widening
+let sym = Symbol('test'); // sym: symbol
+const symConst = Symbol('test'); // symConst: symbol (symbol 자체는 literal type 없음)
+
+// 11. 함수 default parameter widening
+function hoge(s = 'hi') {
+  // s: string (not 'hi')
+  return s;
+}
+const h1 = hoge(); // h1: string

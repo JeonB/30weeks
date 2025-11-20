@@ -62,3 +62,30 @@ console.log(getUserInfo({ name: '철수', email: 'a@a.com' })); // "일반 사�
 console.log(getUserInfo({ name: '영희', role: 'admin' })); // "관리자: 영희"
 console.log(speak(new Dog())); // "멍멍!"
 console.log(speak(new Cat())); // "야옹!"
+
+// 추가 사용 예시
+
+// 1. 타입 가드 함수 예시
+function isAdmin(account: User | Admin): account is Admin {
+  return 'role' in account;
+}
+const user1: User = { name: '유저1', email: 'user1@domain.com' };
+const admin1: Admin = { name: '관리자1', role: 'admin' };
+console.log(isAdmin(user1)); // false
+console.log(isAdmin(admin1)); // true
+
+// 2. 배열에서 타입 내로잉 활용
+const accounts: (User | Admin)[] = [
+  { name: '토끼', email: 'tokki@domain.com' },
+  { name: '거북이', role: 'admin' },
+];
+const admins = accounts.filter(isAdmin); // Admin[] 타입
+admins.forEach(admin => {
+  // admin.role 접근 가능
+  console.log(`관리자만 출력: ${admin.name} / role: ${admin.role}`);
+});
+
+// 3. instanceof로 여러 타입 가능성 분기
+const animals = [new Dog(), new Cat(), new Dog()];
+const sounds = animals.map(pet => speak(pet));
+console.log(sounds); // ['멍멍!', '야옹!', '멍멍!']

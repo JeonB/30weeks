@@ -64,7 +64,7 @@ export function functions(): void {
     return numbers.map(callback);
   }
 
-  const doubled = processArray([1, 2, 3, 4], (num) => num * 2);
+  const doubled = processArray([1, 2, 3, 4], num => num * 2);
   console.log('콜백 함수:', doubled);
 
   // 8. 고차 함수
@@ -79,7 +79,7 @@ export function functions(): void {
 
   // 9. 비동기 함수
   async function fetchData(): Promise<string> {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       setTimeout(() => resolve('Data fetched!'), 100);
     });
   }
@@ -99,8 +99,70 @@ export function functions(): void {
     add: (a, b) => a + b,
     subtract: (a, b) => a - b,
     multiply: (a, b) => a * b,
-    divide: (a, b) => a / b
+    divide: (a, b) => a / b,
   };
 
   console.log('함수 타입:', operations?.['add']?.(10, 5));
 }
+
+// 12. 함수 오버로드 (함수 호출 시 인자 타입에 따라 반환값 타입 다르게)
+function format(value: number): string;
+function format(value: Date): string;
+function format(value: number | Date): string {
+  if (typeof value === 'number') {
+    return value.toFixed(2);
+  } else {
+    return value.toISOString();
+  }
+}
+
+console.log('함수 오버로드:', format(3.14159), format(new Date('2024-01-01')));
+
+// 13. Rest 파라미터 및 spread를 활용한 함수
+function sumAll(...nums: number[]): number {
+  return nums.reduce((acc, cur) => acc + cur, 0);
+}
+
+console.log('rest 파라미터:', sumAll(1, 2, 3, 4, 5));
+
+// 14. 디폴트 파라미터
+function greet(name: string, greeting: string = 'Hello'): string {
+  return `${greeting}, ${name}!`;
+}
+
+console.log('디폴트 파라미터:', greet('홍길동'), greet('철수', '안녕'));
+
+// 15. 함수 반환 타입 명시
+function square(x: number): number {
+  return x * x;
+}
+
+const result: number = square(6);
+console.log('함수 반환 타입 명시:', result);
+
+// 16. this 파라미터 타입 제한 예시
+interface Counter {
+  count: number;
+  increment(this: Counter): void;
+}
+
+const counter: Counter = {
+  count: 0,
+  increment() {
+    this.count++;
+  },
+};
+counter.increment();
+console.log('this 파라미터 타입:', counter.count);
+
+// 17. 함수 타입 별칭과 인터페이스 비교
+type Comparator = (a: number, b: number) => number;
+interface SearchFunc {
+  (source: string, subString: string): boolean;
+}
+
+const compare: Comparator = (a, b) => a - b;
+const search: SearchFunc = (source, sub) => source.includes(sub);
+
+console.log('함수 타입 별칭:', compare(10, 5));
+console.log('함수 타입 인터페이스:', search('typescript', 'type'));

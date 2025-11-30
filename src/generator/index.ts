@@ -55,3 +55,17 @@ let range = {
 
 // 객체 range를 대상으로 하는 이터레이션은 range.from과 range.to 사이의 숫자를 출력합니다.
 alert([...range]);
+
+let range2 = {
+  from: 1,
+  to: 5,
+
+  *[Symbol.iterator]() {
+    // [Symbol.iterator]: function*()를 짧게 줄임
+    for (let value = this.from; value <= this.to; value++) {
+      yield value;
+    }
+  },
+};
+
+alert([...range2]); // 1, 2, 3, 4, 5

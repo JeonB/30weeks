@@ -25,3 +25,8 @@ console.log(str2.match(reg4));
 
 let reg5 = /\d\n/gm;
 console.log(str2.match(reg5));
+
+let reg6 = /ads$/g;
+let str3 = 'qqqqadss';
+console.log(reg6.test(str3));
+console.log(str3.match(reg6));

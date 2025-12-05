@@ -3,7 +3,7 @@ new Promise((resolve, reject) => {
     resolve('success');
   }, 1000);
 })
-  .then(console.log('1초 지남'))
+  .then(console.log('success'))
   .catch(console.error('error'));
 
 // Promise.all에 넘기는 각 요소는 'Promise'여야 하며,
@@ -33,4 +33,54 @@ Promise.all([
   .catch(error => {
     // 하나라도 실패(error 발생 시) 여기로 들어와서 error 메세지를 확인할 수 있습니다.
     console.error('Promise.all error:', error);
+  });
+
+// Promise.allSettled는 모든 프로미스가 성공하든 실패하든 모든 결과를 반환.
+Promise.allSettled([
+  new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(1);
+    }, 1000);
+  }),
+  new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(2);
+    }, 2000);
+  }),
+  new Promise((resolve, reject) => {
+    setTimeout(() => {
+      reject('error');
+    }, 3000);
+  }),
+])
+  .then(result => {
+    console.log('Promise.allSettled result:', result);
+  })
+  .catch(error => {
+    console.error('Promise.allSettled error:', error);
+  });
+
+// Promise.race는 모든 프로미스 중 가장 빨리 완료된 프로미스의 결과를 반환.
+Promise.race([
+  new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(1);
+    }, 1000);
+  }),
+  new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(2);
+    }, 2000);
+  }),
+  new Promise((resolve, reject) => {
+    setTimeout(() => {
+      reject('error');
+    }, 3000);
+  }),
+])
+  .then(result => {
+    console.log('Promise.race result:', result);
+  })
+  .catch(error => {
+    console.error('Promise.race error:', error);
   });
